@@ -17,7 +17,7 @@ bot.localePath(path.join(__dirname, './locale'));
 
 bot.dialog('/', [
     function (session, results) {
-        session.send('Welcome to Kik bot demo.')
+        session.send('Welcome to KiwiSaver bot demo.')
         session.send('Prompt example:')
         builder.Prompts.choice(session, "What language do you code Node?", ["JavaScript", "CoffeeScript", "TypeScript"]);
     },
