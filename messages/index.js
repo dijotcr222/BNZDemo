@@ -43,8 +43,6 @@ bot.dialog('ensureProfile', [
         if (!session.dialogData.profile.company) {
             builder.Prompts.text(session, "Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
         } 
-        if (!session.dialogData.profile.two) {
-            builder.Prompts.text(session, "So the Balanced fund offers a medium risk, medium return at an average management fee. For a person with your income and age, you should be looking at lowering your risk profile and preparing for retirement.")
 
 
         else {
@@ -62,7 +60,7 @@ bot.dialog('ensureProfile', [
             session.dialogData.profile.company = results.response;
         }
          if (results.response.two) {
-            // Save two  if we asked for it.
+            // Save company name if we asked for it.
             session.dialogData.profile.two = results.response;
         }
         session.endDialogWithResult({ response: session.dialogData.profile });
