@@ -16,39 +16,20 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 
-bot.dialog('profile', [
+bot.dialog('greetings', [
     function (session) {
-        session.beginDialog('ensureProfile', session.userData.profile);
+        session.beginDialog('askName');
     },
     function (session, results) {
-        session.userData.profile = results.profile;
-        session.send('Hello %s!', session.userData.profile.name);
+        session.endDialog('Hello %s!', results.response);
     }
 ]);
-bot.dialog('ensureProfile', [
-    function (session, args, next) {
-        session.dialogData.profile = args || {};
-        if (!args.profile.name) {
-            builder.Prompts.text(session, "Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
-        } else {
-            next();
-        }
-    },
-    function (session, results, next) {
-        if (results.response) {
-            session.dialogData.profile.name = results.response;
-        }
-        if (!args.profile.email) {
-            builder.Prompts.text(session, "What's your email address?");
-        } else {
-            next();
-        }
+bot.dialog('askName', [
+    function (session) {
+        builder.Prompts.text(session, 'Hi! What is your name?');
     },
     function (session, results) {
-        if (results.response) {
-            session.dialogData.profile.email = results.response;
-        }
-        session.endDialogWithResult({ response: session.dialogData.profile })
+        session.endDialogWithResult(results);
     }
 ]);
 
