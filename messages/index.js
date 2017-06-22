@@ -29,7 +29,7 @@ bot.dialog('ensureProfile', [
     function (session, args, next) {
         session.dialogData.profile = args || {};
         if (!args.profile.name) {
-            builder.Prompts.text(session, "Hi! What is your name?");
+            builder.Prompts.text(session, "Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
         } else {
             next();
         }
