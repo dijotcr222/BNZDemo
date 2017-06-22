@@ -19,7 +19,7 @@ bot.dialog('/', [
     function (session, results) {
         session.send('Welcome to KiwiSaver bot demo.')
         session.send('Intant example:')
-        builder.Prompts.choice(session, "What language do you code Node?", ["Intant 1", "Intant 2", "Intant 3"]);
+        builder.Prompts.choice(session, "Select one intant ", ["Intant 1", "Intant 2", "Intant 3"]);
     },
     function (session, results) {
         session.userData.language = results.response.entity;
