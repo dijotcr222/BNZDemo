@@ -17,72 +17,114 @@ bot.localePath(path.join(__dirname, './locale'));
 
 
 
-// This is a dinner reservation bot that uses multiple dialogs to prompt users for input.
-var bot = new builder.UniversalBot(connector, [
-    function (session) {
-        session.send("Welcome to the KiwiSaver.");
-        session.beginDialog('askForKiVi');
-    },
-    function (session, results) {
-        session.dialogData.reservationDate = results.response;
-        session.beginDialog('askForPartySize');
-    },
-    function (session, results) {
-        session.dialogData.partySize = results.response;
-        session.beginDialog('askForReserverName');
-    },
-     function (session, results) {
-        session.dialogData.partySize = results.response;
-        session.beginDialog('four');
-    },
+bot.dialog('/', function (session) {
 
-    function (session, results) {
-        session.dialogData.reservationName = results.response;
-                session.beginDialog('ask');
-               session.endDialog();
+    if (!session.userData.greeting) {
+
+        session.send("Hi DIJO.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
+        session.userData.greeting = true;
+
+    } else if (!session.userData.name) {
+
+        console.log("Begin");
+        getName(session);
+
+    } else if (!session.userData.email) {
+
+        console.log("Name is: " + session.userData.name);
+        getEmail(session);
+
+    } else if (!session.userData.password) {
+
+        console.log("Name is: " + session.userData.name);
+        getPassword(session);
+
+    }else if (!session.userData.five) {
+
+        console.log("five: " + session.userData.five);
+
+        getFive(session);
+
     }
-]);
+    else if (!session.userData.six) {
 
+        console.log("six: " + session.userData.six);
 
-bot.dialog('askForKiVi', [
-    function (session) {
-        builder.Prompts.test(session, "Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
-    },
-    function (session, results) {
-        session.endDialogWithResult(results);
+        getSix(session);
+
     }
-]);
+     else if (!session.userData.seven) {
 
-// Dialog to ask for number of people in the party
-bot.dialog('askForPartySize', [
-    function (session) {
-        builder.Prompts.text(session, "So the Balanced fund offers a medium risk, medium return at an average management fee. For a person with your income and age, you should be looking at lowering your risk profile and preparing for retirement.?");
-    },
-    function (session, results) {
-        session.endDialogWithResult(results);
+        console.log("seven: " + session.userData.seven);
+
+        getSeven(session);
+
     }
-])
+    else if (!session.userData.eight) {
 
-    bot.dialog('askForPartySize', [
-    function (session) {
-        builder.Prompts.text(session, "In terms of Kiwisaver funds, the conservative funds offer a slightly lower risk with slightly lower reward.");
-    },
+        console.log("eight: " + session.userData.eight);
 
-    function (session, results) {
-        session.endDialogWithResult(results);
+        getEight(session);
+
     }
-])
+     else {
 
-    bot.dialog('four', [
-    function (session) {
-        builder.Prompts.text(session, "No, there isn't.");
-    },
-
-    function (session, results) {
-        session.endDialogWithResult(results);
+        session.userData = null;
     }
-])
-]);
+
+    session.endDialog();
+} );
+
+
+function getName(session) {
+
+    name = session.message.text;
+    session.userData.name = name;
+    session.send("So the Balanced fund offers a medium risk, medium return at an average management fee. For a person with your income and age, you should be looking at lowering your risk profile and preparing for retirement.");
+
+}
+
+function getEmail(session) {
+      var re = "";
+         email = session.message.text;
+         session.userData.email = email;
+         session.send("DISPLAY GRAPH. Let's say 7%.");
+}
+
+function getPassword(session) {
+           password = session.message.text;
+           session.userData.password = password;
+           session.send("In terms of Kiwisaver funds, the conservative funds offer a slightly lower risk with slightly lower reward.");
+
+}
+
+function getFive(session) {
+        five = session.message.text;
+        session.userData.five = five;
+        session.send("No, there isn't.");
+
+}
+
+function getSix(session) {
+        six = session.message.text;
+        session.userData.six = six;
+        session.send("account unless you've met certain criteria (retirement age 65, purchasing a first home or financial hardship).");
+
+}
+
+function getSeven(session) {
+        seven = session.message.text;
+        session.userData.seven = seven;
+        session.send("There is no minimum floor for investment. You can allocate a tiny portion of your balance to a fund or you can allocate the entire balance to a fund.");
+
+}
+
+function getEight(session) {
+        eight = session.message.text;
+        session.userData.eight = eight;
+        session.send("yourself up. Or 3) You can just keep your account in NZ.");
+
+}
 
 if (useEmulator) {
     var restify = require('restify');
