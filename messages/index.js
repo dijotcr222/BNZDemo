@@ -19,23 +19,21 @@ bot.localePath(path.join(__dirname, './locale'));
 // This is a dinner reservation bot that uses a waterfall technique to prompt users for input.
 var bot = new builder.UniversalBot(connector, [
     function (session) {
-        session.send("Welcome to the dinner reservation.");
-        builder.Prompts.time(session, "Please provide a reservation date and time (e.g.: June 6th at 5pm)");
+        session.send("Welcome to the KiwiSaver.");
+        session.send("Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
     },
     function (session, results) {
-        session.dialogData.reservationDate = builder.EntityRecognizer.resolveTime([results.response]);
-        builder.Prompts.text(session, "How many people are in your party?");
+        builder.Prompts.text(session, "So the Balanced fund offers a medium risk, medium return at an average management fee. For a person with your income and age, you should be looking at lowering your risk profile and preparing for retirement.");
     },
     function (session, results) {
         session.dialogData.partySize = results.response;
-        builder.Prompts.text(session, "Who's name will this reservation be under?");
+        builder.Prompts.text(session, "DISPLAY GRAPH. Let's say 7%.");
     },
     function (session, results) {
         session.dialogData.reservationName = results.response;
 
         // Process request and display reservation details
-        session.send("Reservation confirmed. Reservation details: <br/>Date/Time: %s <br/>Party size: %s <br/>Reservation name: %s",
-            session.dialogData.reservationDate, session.dialogData.partySize, session.dialogData.reservationName);
+        session.send("");
         session.endDialog();
     }
 ]);
