@@ -73,6 +73,25 @@ bot.localePath(path.join(__dirname, './locale'));
     session.endDialog();
 } );
 
+function sendData(data, cb) {
+
+        var args = {
+        data: { name: data.name,
+            email: data.email, password : data.password, five: data.five, six: data.six, seven: data.seven, eight: data.eight },
+        headers: { "Content-Type": "application/json" }
+        };
+        
+        client.post("http://localhost:3000/senddata", args, function (data, response) {
+                    // parsed response body as js object
+                    console.log(data);
+                    // raw response
+                    console.log(response);
+                    });    
+
+  
+
+}
+
 if (useEmulator) {
     var restify = require('restify');
     var server = restify.createServer();
