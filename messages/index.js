@@ -23,7 +23,7 @@ var bot = new builder.UniversalBot(connector, [
     },
     function (session, results) {
         session.userData.profile = results.response; // Save user profile.
-        session.send('Hello %(name)s! I love %(company)s!', session.userData.profile);
+        //session.send('Hello %(name)s! I love %(company)s!', session.userData.profile);
     }
 ]);
 bot.dialog('ensureProfile', [
@@ -41,15 +41,29 @@ bot.dialog('ensureProfile', [
             session.dialogData.profile.name = results.response;
         }
         if (!session.dialogData.profile.company) {
-            builder.Prompts.text(session, "What company do you work for?");
-        } else {
+            builder.Prompts.text(session, "Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
+        } 
+        if (!session.dialogData.profile.two) {
+            builder.Prompts.text(session, "So the Balanced fund offers a medium risk, medium return at an average management fee. For a person with your income and age, you should be looking at lowering your risk profile and preparing for retirement.")
+
+
+        else {
             next(); // Skip if we already have this info.
         }
     },
+
+
+
+
+
     function (session, results) {
-        if (results.response) {
+        if (results.response.company) {
             // Save company name if we asked for it.
             session.dialogData.profile.company = results.response;
+        }
+         if (results.response.two) {
+            // Save two  if we asked for it.
+            session.dialogData.profile.two = results.response;
         }
         session.endDialogWithResult({ response: session.dialogData.profile });
     }
