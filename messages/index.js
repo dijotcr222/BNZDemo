@@ -15,33 +15,43 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 
-bot.dialog('/', [
-    function (session, results) {
-        session.send('Welcome to KiwiSaver bot demo.')
-        session.send('Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do? ')
-       // builder.Prompts.choice(session, "Select one intant ", ["Intant 1", "Intant 2", "Intant 3"]);
+
+
+var bot = new builder.UniversalBot(connector, [
+    function (session) {
+        session.beginDialog('ensureProfile', session.userData.profile);
     },
     function (session, results) {
-        session.userData.language = results.response.entity;
-        session.send("Sweet! " + session.userData.language + " is awesome!");
-        
-        // send card
-       /*session.send('Sending card example...');
-        var msg = new builder.Message(session);
-        msg.attachments([
-            new builder.HeroCard(session)
-                .title('Intant 1')
-                .subtitle('Example card with buttons')
-                .text('321, Accenture')
-                .images([
-                    builder.CardImage.create(session, 'https://www.google.com.au/search?q=accenture&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiY2emBx9DUAhVM1hQKHaTqBe0Q_AUICygC&biw=1405&bih=759#imgrc=E2jUIKz8ownJvM:')
-                ])
-                .buttons([
-                    builder.CardAction.openUrl(session, 'https://maps.apple.com/&ll=47.6097199,-122.3465703', 'View Map'),
-                    builder.CardAction.openUrl(session, 'https://www.accenture.com/au-en/new-applied-now/', 'View Site')
-                ])
-        ]);*/
-    session.send(msg).endDialog();
+        session.userData.profile = results.response; // Save user profile.
+        session.send('Hello %(name)s! I love %(company)s!', session.userData.profile);
+    }
+]);
+bot.dialog('ensureProfile', [
+    function (session, args, next) {
+        session.dialogData.profile = args || {}; // Set the profile or create the object.
+        if (!session.dialogData.profile.name) {
+            builder.Prompts.text(session, "What's your name?");
+        } else {
+            next(); // Skip if we already have this info.
+        }
+    },
+    function (session, results, next) {
+        if (results.response) {
+            // Save user's name if we asked for it.
+            session.dialogData.profile.name = results.response;
+        }
+        if (!session.dialogData.profile.company) {
+            builder.Prompts.text(session, "What company do you work for?");
+        } else {
+            next(); // Skip if we already have this info.
+        }
+    },
+    function (session, results) {
+        if (results.response) {
+            // Save company name if we asked for it.
+            session.dialogData.profile.company = results.response;
+        }
+        session.endDialogWithResult({ response: session.dialogData.profile });
     }
 ]);
 
