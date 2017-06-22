@@ -21,7 +21,6 @@ var bot = new builder.UniversalBot(connector, [
     function (session) {
 
         session.send("Welcome to the KiwiSaver.");
-        session.dialogData.partySize = results.response;
         session.send("Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
     },
     function (session, results) {
