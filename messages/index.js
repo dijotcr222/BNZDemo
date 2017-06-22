@@ -17,56 +17,59 @@ bot.localePath(path.join(__dirname, './locale'));
 
 
 
+// This is a dinner reservation bot that uses multiple dialogs to prompt users for input.
 var bot = new builder.UniversalBot(connector, [
     function (session) {
-        session.beginDialog('ensureProfile', session.userData.profile);
+        session.send("Welcome to the dinner reservation.");
+        session.beginDialog('askForDateTime');
     },
     function (session, results) {
-        session.userData.profile = results.response; // Save user profile.
-        //session.send('Hello %(name)s! I love %(company)s!', session.userData.profile);
-    }
-]);
-bot.dialog('ensureProfile', [
-    function (session, args, next) {
-        session.dialogData.profile = args || {}; // Set the profile or create the object.
-        if (!session.dialogData.profile.name) {
-            builder.Prompts.text(session, "What's your name?");
-        } else {
-            next(); // Skip if we already have this info.
-        }
+        session.dialogData.reservationDate = builder.EntityRecognizer.resolveTime([results.response]);
+        session.beginDialog('askForPartySize');
     },
-    function (session, results, next) {
-        if (results.response) {
-            // Save user's name if we asked for it.
-            session.dialogData.profile.name = results.response;
-        }
-        if (!session.dialogData.profile.company) {
-            builder.Prompts.text(session, "Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
-        } 
-
-
-        else {
-            next(); // Skip if we already have this info.
-        }
-    },
-
-
-
-
-
     function (session, results) {
-        if (results.response.company) {
-            // Save company name if we asked for it.
-            session.dialogData.profile.company = results.response;
-        }
-         if (results.response.two) {
-            // Save company name if we asked for it.
-            session.dialogData.profile.two = results.response;
-        }
-        session.endDialogWithResult({ response: session.dialogData.profile });
+        session.dialogData.partySize = results.response;
+        session.beginDialog('askForReserverName');
+    },
+    function (session, results) {
+        session.dialogData.reservationName = results.response;
+
+        // Process request and display reservation details
+        session.send("Reservation confirmed. Reservation details: <br/>Date/Time: %s <br/>Party size: %s <br/>Reservation name: %s",
+            session.dialogData.reservationDate, session.dialogData.partySize, session.dialogData.reservationName);
+        session.endDialog();
     }
 ]);
 
+// Dialog to ask for a date and time
+bot.dialog('askForDateTime', [
+    function (session) {
+        builder.Prompts.time(session, "Please provide a reservation date and time (e.g.: June 6th at 5pm)");
+    },
+    function (session, results) {
+        session.endDialogWithResult(results);
+    }
+]);
+
+// Dialog to ask for number of people in the party
+bot.dialog('askForPartySize', [
+    function (session) {
+        builder.Prompts.text(session, "How many people are in your party?");
+    },
+    function (session, results) {
+        session.endDialogWithResult(results);
+    }
+])
+
+// Dialog to ask for the reservation name.
+bot.dialog('askForReserverName', [
+    function (session) {
+        builder.Prompts.text(session, "Who's name will this reservation be under?");
+    },
+    function (session, results) {
+        session.endDialogWithResult(results);
+    }
+]);
 
 if (useEmulator) {
     var restify = require('restify');
