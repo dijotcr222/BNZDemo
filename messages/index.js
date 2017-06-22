@@ -18,8 +18,8 @@ bot.localePath(path.join(__dirname, './locale'));
 bot.dialog('/', [
     function (session, results) {
         session.send('Welcome to KiwiSaver bot demo.')
-        session.send('Prompt example:')
-        builder.Prompts.choice(session, "What language do you code Node?", ["JavaScript", "CoffeeScript", "TypeScript"]);
+        session.send('Intant example:')
+        builder.Prompts.choice(session, "What language do you code Node?", ["Intant 1", "Intant 2", "Intant 3"]);
     },
     function (session, results) {
         session.userData.language = results.response.entity;
@@ -30,15 +30,15 @@ bot.dialog('/', [
         var msg = new builder.Message(session);
         msg.attachments([
             new builder.HeroCard(session)
-                .title('Pike Place Fish Market')
+                .title('Intant 1')
                 .subtitle('Example card with buttons')
-                .text('86 Pike Pl, Seattle, WA 98101')
+                .text('321, Accenture')
                 .images([
-                    builder.CardImage.create(session, 'https://cdn.shopify.com/s/files/1/1231/1452/t/5/assets/Home.Banner.Mobile.jpg')
+                    builder.CardImage.create(session, 'https://www.google.com.au/search?q=accenture&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiY2emBx9DUAhVM1hQKHaTqBe0Q_AUICygC&biw=1405&bih=759#imgrc=E2jUIKz8ownJvM:')
                 ])
                 .buttons([
                     builder.CardAction.openUrl(session, 'https://maps.apple.com/&ll=47.6097199,-122.3465703', 'View Map'),
-                    builder.CardAction.openUrl(session, 'https://www.pikeplacefish.com/', 'View Site')
+                    builder.CardAction.openUrl(session, 'https://www.accenture.com/au-en/new-applied-now/', 'View Site')
                 ])
         ]);
     session.send(msg).endDialog();
