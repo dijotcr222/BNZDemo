@@ -132,12 +132,6 @@ function sendData(data, cb) {
         headers: { "Content-Type": "application/json" }
         };
         
-        client.post("http://localhost:3000/senddata", args, function (data, response) {
-                    // parsed response body as js object
-                    console.log(data);
-                    // raw response
-                    console.log(response);
-                    });    
 
   
 
