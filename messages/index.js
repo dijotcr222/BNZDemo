@@ -16,127 +16,41 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 
-bot.dialog('/', function (session, args) {
-
-    if (!session.userData.greeting) {
-
-        session.send("Hi DIJO.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
-        session.userData.greeting = true;
-
-    } else if (!session.userData.name) {
-
-        console.log("Begin");
-        getName(session);
-
-    } else if (!session.userData.email) {
-
-        console.log("Name is: " + session.userData.name);
-        getEmail(session);
-
-    } else if (!session.userData.password) {
-
-        console.log("Name is: " + session.userData.name);
-        getPassword(session);
-
-    }else if (!session.userData.five) {
-
-        console.log("five: " + session.userData.five);
-
-        getFive(session);
-
+bot.dialog('profile', [
+    function (session) {
+        session.beginDialog('ensureProfile', session.userData.profile);
+    },
+    function (session, results) {
+        session.userData.profile = results.profile;
+        session.send('Hello %s!', session.userData.profile.name);
     }
-    else if (!session.userData.six) {
-
-        console.log("six: " + session.userData.six);
-
-        getSix(session);
-
+]);
+bot.dialog('ensureProfile', [
+    function (session, args, next) {
+        session.dialogData.profile = args || {};
+        if (!args.profile.name) {
+            builder.Prompts.text(session, "Hi! What is your name?");
+        } else {
+            next();
+        }
+    },
+    function (session, results, next) {
+        if (results.response) {
+            session.dialogData.profile.name = results.response;
+        }
+        if (!args.profile.email) {
+            builder.Prompts.text(session, "What's your email address?");
+        } else {
+            next();
+        }
+    },
+    function (session, results) {
+        if (results.response) {
+            session.dialogData.profile.email = results.response;
+        }
+        session.endDialogWithResult({ response: session.dialogData.profile })
     }
-     else if (!session.userData.seven) {
-
-        console.log("seven: " + session.userData.seven);
-
-        getSeven(session);
-
-    }
-    else if (!session.userData.eight) {
-
-        console.log("eight: " + session.userData.eight);
-
-        getEight(session);
-
-    }
-     else {
-
-        session.userData = null;
-    }
-
-    session.endDialog();
-} );
-
-
-function getName(session) {
-
-    name = session.message.text;
-    session.userData.name = name;
-    session.send("lowering your risk profile and preparing for retirement.");
-
-}
-
-function getEmail(session) {
-      var re = "";
-         email = session.message.text;
-         session.userData.email = email;
-         session.send("DISPLAY GRAPH. Let's say 7%.");
-}
-
-function getPassword(session) {
-           password = session.message.text;
-           session.userData.password = password;
-           session.send("In terms of Kiwisaver funds, the conservative funds offer a slightly lower risk with slightly lower reward.");
-
-}
-
-function getFive(session) {
-        five = session.message.text;
-        session.userData.five = five;
-        session.send("No, there isn't.");
-
-}
-
-function getSix(session) {
-        six = session.message.text;
-        session.userData.six = six;
-        session.send("account unless you've met certain criteria (retirement age 65, purchasing a first home or financial hardship).");
-
-}
-
-function getSeven(session) {
-        seven = session.message.text;
-        session.userData.seven = seven;
-        session.send("There is no minimum floor for investment. You can allocate a tiny portion of your balance to a fund or you can allocate the entire balance to a fund.");
-
-}
-
-function getEight(session) {
-        eight = session.message.text;
-        session.userData.eight = eight;
-        session.send("yourself up. Or 3) You can just keep your account in NZ.");
-
-}
-
-function sendData(data, cb) {
-
-        var args = {
-        data: { name: data.name,
-            email: data.email, password : data.password, five: data.five, six: data.six, seven: data.seven, eight: data.eight },
-        headers: { "Content-Type": "application/json" }
-        };
-        
-
-  
-
-}
+]);
 
 if (useEmulator) {
     var restify = require('restify');
