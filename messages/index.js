@@ -21,7 +21,7 @@ bot.localePath(path.join(__dirname, './locale'));
 var bot = new builder.UniversalBot(connector, [
     function (session) {
         session.send("Welcome to the KiwiSaver.");
-        session.beginDialog('askForDateTime');
+        session.beginDialog('askForKiVi');
     },
     function (session, results) {
         session.dialogData.reservationDate = results.response;
@@ -31,19 +31,22 @@ var bot = new builder.UniversalBot(connector, [
         session.dialogData.partySize = results.response;
         session.beginDialog('askForReserverName');
     },
+     function (session, results) {
+        session.dialogData.partySize = results.response;
+        session.beginDialog('four');
+    },
+
     function (session, results) {
         session.dialogData.reservationName = results.response;
                 session.beginDialog('ask');
-
-       
-        session.endDialog();
+               session.endDialog();
     }
 ]);
 
-// Dialog to ask for a date and time
-bot.dialog('askForDateTime', [
+
+bot.dialog('askForKiVi', [
     function (session) {
-        builder.Prompts.time(session, "Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
+        builder.Prompts.test(session, "Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
     },
     function (session, results) {
         session.endDialogWithResult(results);
@@ -60,14 +63,25 @@ bot.dialog('askForPartySize', [
     }
 ])
 
-// Dialog to ask for the reservation name.
-bot.dialog('askForReserverName', [
+    bot.dialog('askForPartySize', [
     function (session) {
-        builder.Prompts.text(session, "DISPLAY GRAPH. Let's say 7%.");
+        builder.Prompts.text(session, "In terms of Kiwisaver funds, the conservative funds offer a slightly lower risk with slightly lower reward.");
     },
+
     function (session, results) {
         session.endDialogWithResult(results);
     }
+])
+
+    bot.dialog('four', [
+    function (session) {
+        builder.Prompts.text(session, "No, there isn't.");
+    },
+
+    function (session, results) {
+        session.endDialogWithResult(results);
+    }
+])
 ]);
 
 if (useEmulator) {
