@@ -18,15 +18,15 @@ bot.localePath(path.join(__dirname, './locale'));
 bot.dialog('/', [
     function (session, results) {
         session.send('Welcome to KiwiSaver bot demo.')
-        session.send('Intant example:')
-        builder.Prompts.choice(session, "Select one intant ", ["Intant 1", "Intant 2", "Intant 3"]);
+        session.send('Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do? ')
+       // builder.Prompts.choice(session, "Select one intant ", ["Intant 1", "Intant 2", "Intant 3"]);
     },
     function (session, results) {
         session.userData.language = results.response.entity;
         session.send("Sweet! " + session.userData.language + " is awesome!");
         
         // send card
-        session.send('Sending card example...');
+       /*session.send('Sending card example...');
         var msg = new builder.Message(session);
         msg.attachments([
             new builder.HeroCard(session)
@@ -40,7 +40,7 @@ bot.dialog('/', [
                     builder.CardAction.openUrl(session, 'https://maps.apple.com/&ll=47.6097199,-122.3465703', 'View Map'),
                     builder.CardAction.openUrl(session, 'https://www.accenture.com/au-en/new-applied-now/', 'View Site')
                 ])
-        ]);
+        ]);*/
     session.send(msg).endDialog();
     }
 ]);
