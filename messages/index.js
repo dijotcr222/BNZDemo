@@ -20,11 +20,11 @@ bot.localePath(path.join(__dirname, './locale'));
 // This is a dinner reservation bot that uses multiple dialogs to prompt users for input.
 var bot = new builder.UniversalBot(connector, [
     function (session) {
-        session.send("Welcome to the dinner reservation.");
+        session.send("Welcome to the KiwiSaver.");
         session.beginDialog('askForDateTime');
     },
     function (session, results) {
-        session.dialogData.reservationDate = builder.EntityRecognizer.resolveTime([results.response]);
+        session.dialogData.reservationDate = results.response;
         session.beginDialog('askForPartySize');
     },
     function (session, results) {
@@ -33,10 +33,9 @@ var bot = new builder.UniversalBot(connector, [
     },
     function (session, results) {
         session.dialogData.reservationName = results.response;
+                session.beginDialog('ask');
 
-        // Process request and display reservation details
-        session.send("Reservation confirmed. Reservation details: <br/>Date/Time: %s <br/>Party size: %s <br/>Reservation name: %s",
-            session.dialogData.reservationDate, session.dialogData.partySize, session.dialogData.reservationName);
+       
         session.endDialog();
     }
 ]);
@@ -44,7 +43,7 @@ var bot = new builder.UniversalBot(connector, [
 // Dialog to ask for a date and time
 bot.dialog('askForDateTime', [
     function (session) {
-        builder.Prompts.time(session, "Please provide a reservation date and time (e.g.: June 6th at 5pm)");
+        builder.Prompts.time(session, "Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
     },
     function (session, results) {
         session.endDialogWithResult(results);
@@ -54,7 +53,7 @@ bot.dialog('askForDateTime', [
 // Dialog to ask for number of people in the party
 bot.dialog('askForPartySize', [
     function (session) {
-        builder.Prompts.text(session, "How many people are in your party?");
+        builder.Prompts.text(session, "So the Balanced fund offers a medium risk, medium return at an average management fee. For a person with your income and age, you should be looking at lowering your risk profile and preparing for retirement.?");
     },
     function (session, results) {
         session.endDialogWithResult(results);
@@ -64,7 +63,7 @@ bot.dialog('askForPartySize', [
 // Dialog to ask for the reservation name.
 bot.dialog('askForReserverName', [
     function (session) {
-        builder.Prompts.text(session, "Who's name will this reservation be under?");
+        builder.Prompts.text(session, "DISPLAY GRAPH. Let's say 7%.");
     },
     function (session, results) {
         session.endDialogWithResult(results);
