@@ -15,64 +15,35 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 
-bot.dialog('/', function (session) {
-
-    if (!session.userData.greeting) {
-
-        session.send("Hi DIJO.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
-        session.userData.greeting = true;
-
-    } else if (!session.userData.name) {
-
-        console.log("Begin");
-        getName(session);
-
-    } else if (!session.userData.email) {
-
-        console.log("Name is: " + session.userData.name);
-        getEmail(session);
-
-    } else if (!session.userData.password) {
-
-        console.log("Name is: " + session.userData.name);
-        getPassword(session);
-
-    }else if (!session.userData.five) {
-
-        console.log("five: " + session.userData.five);
-
-        getFive(session);
-
+bot.dialog('/', [
+    function (session, results) {
+        session.send('Welcome to Kik bot demo.')
+        session.send('Prompt example:')
+        builder.Prompts.choice(session, "What language do you code Node?", ["JavaScript", "CoffeeScript", "TypeScript"]);
+    },
+    function (session, results) {
+        session.userData.language = results.response.entity;
+        session.send("Sweet! " + session.userData.language + " is awesome!");
+        
+        // send card
+        session.send('Sending card example...');
+        var msg = new builder.Message(session);
+        msg.attachments([
+            new builder.HeroCard(session)
+                .title('Pike Place Fish Market')
+                .subtitle('Example card with buttons')
+                .text('86 Pike Pl, Seattle, WA 98101')
+                .images([
+                    builder.CardImage.create(session, 'https://cdn.shopify.com/s/files/1/1231/1452/t/5/assets/Home.Banner.Mobile.jpg')
+                ])
+                .buttons([
+                    builder.CardAction.openUrl(session, 'https://maps.apple.com/&ll=47.6097199,-122.3465703', 'View Map'),
+                    builder.CardAction.openUrl(session, 'https://www.pikeplacefish.com/', 'View Site')
+                ])
+        ]);
+    session.send(msg).endDialog();
     }
-    else if (!session.userData.six) {
-
-        console.log("six: " + session.userData.six);
-
-        getSix(session);
-
-    }
-     else if (!session.userData.seven) {
-
-        console.log("seven: " + session.userData.seven);
-
-        getSeven(session);
-
-    }
-    else if (!session.userData.eight) {
-
-        console.log("eight: " + session.userData.eight);
-
-        getEight(session);
-
-    }
-     else {
-
-        session.userData = null;
-    }
-
-    session.endDialog();
-} );
-
+]);
 
 
 if (useEmulator) {
