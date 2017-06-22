@@ -17,50 +17,61 @@ var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 
 // This is a dinner reservation bot that uses a waterfall technique to prompt users for input.
-var bot = new builder.UniversalBot(connector, [
-    function (session) {
+ if (!session.userData.greeting) {
 
-        session.send("Welcome to the KiwiSaver.");
-        session.send("Hi Dijo.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
-    },
-    function (session, results) {
+        session.send("Hi DIJO.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
+        session.userData.greeting = true;
 
-        builder.send("So the Balanced fund offers a medium risk, medium return at an average management fee. For a person with your income and age, you should be looking at lowering your risk profile and preparing for retirement.");
+    } else if (!session.userData.name) {
 
-     },
-    function (session, results) {
+        console.log("Begin");
+       
 
-        session.dialogData.partySize = results.response;
-        builder.Prompts.text(session, "DISPLAY GRAPH. Let's say 7%.");
+    } else if (!session.userData.email) {
 
-    },
-     function (session, results) {
+        console.log("Name is: " + session.userData.name);
+       
 
-        session.dialogData.partySize = results.response;
-        builder.Prompts.text(session, "DISPLAY GRAPH. Let's say 7%.");
+    } else if (!session.userData.password) {
 
-    },
-     function (session, results) {
+        console.log("Name is: " + session.userData.name);
 
-        session.dialogData.partySize = results.response;
-        builder.Prompts.text(session, "DISPLAY GRAPH. Let's say 8%.");
 
-    },
-     function (session, results) {
+    }else if (!session.userData.five) {
 
-        session.dialogData.partySize = results.response;
-        builder.Prompts.text(session, "DISPLAY GRAPH. Let's say 9%.");
+        console.log("five: " + session.userData.five);
 
-    },
-    function (session, results) {
-
-        session.dialogData.reservationName = results.response;
-        // Process request and display reservation details
-        session.send("");
-        session.endDialog();
+       
 
     }
-]);
+    else if (!session.userData.six) {
+
+        console.log("six: " + session.userData.six);
+
+       
+
+    }
+     else if (!session.userData.seven) {
+
+        console.log("seven: " + session.userData.seven);
+
+
+
+    }
+    else if (!session.userData.eight) {
+
+        console.log("eight: " + session.userData.eight);
+
+       
+
+    }
+     else {
+
+        session.userData = null;
+    }
+
+    session.endDialog();
+} );
 
 if (useEmulator) {
     var restify = require('restify');
