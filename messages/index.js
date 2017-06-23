@@ -3,7 +3,7 @@ var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
 var http = require('http');
-/*var sql = require('mssql');*/
+var sql = require('mssql');
 
 var useEmulator = (process.env.NODE_ENV == 'development');
 
@@ -14,11 +14,11 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
     openIdMetadata: process.env['BotOpenIdMetadata']
 });
 
-/*var connection = {
+var connection = {
     server: 'dchat.database.windows.net',
     user: 'dijotcr222',
     password: 'D1j0=0kRia123',
-    database: 'MYChatTest',
+    database: 'WorkshopDemo',
     options: {
            encrypt: true
       }
@@ -30,7 +30,7 @@ sql.connect(connection, function (err) {
   }else{
     console.log("DB Connected");
   }
-})*/
+})
 
 var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
@@ -40,6 +40,23 @@ bot.localePath(path.join(__dirname, './locale'));
 bot.dialog('/', function (session) {
     session.send('You said ' + session.message.text);
     session.send('Welcome to KiwiSaver.');
+    var conn = new sql.Connection(connection);
+    var reqs = new sql.Request(conn);
+    conn.connect(function(err){
+      if(err){
+        console.log(err)
+      }else{
+        var SqlSt = "INSERT into Chat (chat_Interaction, created_date,) VALUES";
+        SqlSt += util.format("(%s,%s)", "23",session.message.text,session.message.textsession.message.text);
+        reqs.query(SqlSt, function(err, data){
+            if(err){
+              console.log(err);
+            }else{
+              console.log("Saved")
+            }
+        });
+      }
+    });
 });
 
 
