@@ -47,7 +47,7 @@ bot.dialog('/', function (session) {
         console.log(err)
       }else{
         var SqlSt = "INSERT into Chat (chat_Interaction, created_date,) VALUES";
-        SqlSt += util.format("(%s,%s)", "23",session.message.text,session.message.textsession.message.text);
+        SqlSt += util.format("(%s,%s)",session.message.text,session.message.textsession.message.text);
         reqs.query(SqlSt, function(err, data){
             if(err){
               console.log(err);
