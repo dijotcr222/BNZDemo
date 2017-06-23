@@ -13,7 +13,7 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
     openIdMetadata: process.env['BotOpenIdMetadata']
 });
 
-var connection = {
+/*var connection = {
     server: 'dchat.database.windows.net',
     user: 'dijotcr222',
     password: 'D1j0=0kRia123',
@@ -29,7 +29,7 @@ sql.connect(connection, function (err) {
   }else{
     console.log("DB Connected");
   }
-})
+})*/
 
 var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
