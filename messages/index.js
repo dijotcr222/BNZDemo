@@ -37,16 +37,15 @@ bot.localePath(path.join(__dirname, './locale'));
 
 
 
-
-bot.dialog('/', [
-    function (session, results) {
-
-    var bot = new builder.UniversalBot(connector);
-bot.localePath(path.join(__dirname, './locale'));
-
 bot.dialog('/', function (session) {
     session.send('You ' + session.message.text);
 });
+
+
+/*bot.dialog('/', [
+    function (session, results) {
+
+ 
 
        /*var conn = new sql.Connection(connection);
     var reqs = new sql.Request(conn);
@@ -94,6 +93,7 @@ bot.dialog('/', function (session) {
     session.send(msg).endDialog();
     }
 ]);*/
+
 if (useEmulator) {
     var restify = require('restify');
     var server = restify.createServer();
