@@ -38,6 +38,10 @@ bot.localePath(path.join(__dirname, './locale'));
 
 
 bot.dialog('/', function (session) {
+
+session.send('Welcome to KiwiSaver.');
+    var conn = new sql.Connection(connection);
+    var reqs = new sql.Request(conn);
    
     conn.connect(function(err){
       if(err){
@@ -55,9 +59,7 @@ bot.dialog('/', function (session) {
       }
     });
      session.send('You said ' + session.message.text);
-    session.send('Welcome to KiwiSaver.');
-    var conn = new sql.Connection(connection);
-    var reqs = new sql.Request(conn);
+    
 });
 
 
