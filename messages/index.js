@@ -56,7 +56,7 @@ bot.dialog('/', function (session) {
     
 );
         var SqlSt = "INSERT into ChatTable (ChatID, chatMessage,localTime) VALUES";
-        SqlSt += util.format("(%d,%s,%s)","1","1","1");
+        SqlSt += util.format("(%d,%s,%s)",1,"1","1");
         reqs.query(SqlSt, function(err, data){
             if(err){
               console.log(err);
