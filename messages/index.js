@@ -38,7 +38,8 @@ bot.localePath(path.join(__dirname, './locale'));
 
 
 bot.dialog('/', function (session) {
-    session.send('You ' + session.message.text);
+    session.send('You said ' + session.message.text);
+    session.send('Welcome to KiwiSaver.');
 });
 
 
