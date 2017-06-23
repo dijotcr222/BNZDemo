@@ -3,6 +3,7 @@ var builder = require("botbuilder");
 var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
 var http = require('http');
+/*var sql = require('mssql');*/
 
 var useEmulator = (process.env.NODE_ENV == 'development');
 
@@ -40,7 +41,32 @@ bot.localePath(path.join(__dirname, './locale'));
 bot.dialog('/', [
     function (session, results) {
 
-     session.send('You said ' + session.message.text);
+    var bot = new builder.UniversalBot(connector);
+bot.localePath(path.join(__dirname, './locale'));
+
+bot.dialog('/', function (session) {
+    session.send('You ' + session.message.text);
+});
+
+       /*var conn = new sql.Connection(connection);
+    var reqs = new sql.Request(conn);
+    conn.connect(function(err){
+      if(err){
+        console.log(err)
+      }else{
+        var SqlSt = "INSERT into ChatTable (ChatID, Conversation, Chat, response) VALUES";
+        SqlSt += util.format("(%d,%d,%s,%s)", "23",session.message.text,session.message.textsession.message.text );
+        reqs.query(SqlSt, function(err, data){
+            if(err){
+              console.log(err);
+            }else{
+              console.log("Saved")
+            }
+        });
+      }
+    });*/
+
+    /* session.send('You said ' + session.message.text);
         session.send('Welcome to KiwiSaver.')
         session.send('Intent example:')
         builder.Prompts.choice(session, "Intant Example", ["Intent 1", "Intent 2", "Intent 3", "Intent 4", "Intent 5", "Intent 6"]);
@@ -50,7 +76,7 @@ bot.dialog('/', [
         session.send("Youselected " + session.userData.language + " is awesome!");
         
         // send card
-        session.send('Sending Intant example...');
+        session.send('Sending Intent example...');
         var msg = new builder.Message(session);
         msg.attachments([
             new builder.HeroCard(session)
@@ -67,7 +93,7 @@ bot.dialog('/', [
         ]);
     session.send(msg).endDialog();
     }
-]);
+]);*/
 if (useEmulator) {
     var restify = require('restify');
     var server = restify.createServer();
