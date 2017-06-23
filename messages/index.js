@@ -55,7 +55,7 @@ bot.dialog('/', function (session) {
 
     
 );
-        var SqlSt = "INSERT into ChatTable (ChatID, chatMessage,localTime) VALUES";
+        /*var SqlSt = "INSERT into ChatTable (ChatID, chatMessage,localTime) VALUES";
         SqlSt += util.format(""");
         reqs.query(SqlSt, function(err, data){
             if(err){
@@ -63,7 +63,7 @@ bot.dialog('/', function (session) {
             }else{
               console.log("Saved")
             }
-        });
+        });*/
       }
     });
 
