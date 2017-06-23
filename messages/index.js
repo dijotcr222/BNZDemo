@@ -35,22 +35,39 @@ var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 
 
-bot.dialog('/', function (session) {
-    session.send('You said ' + session.message.text);
-});
-function createHeroCard(session) {
-    return new builder.HeroCard(session)
-        .title('BotFramework Hero Card')
-        .subtitle('Your bots — wherever your users are talking')
-        .text('Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.')
-        .images([
-            builder.CardImage.create(session, 'https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg')
-        ])
-        .buttons([
-            builder.CardAction.openUrl(session, 'https://docs.microsoft.com/bot-framework', 'Get Started')
-        ]);
-}
 
+
+bot.dialog('/', [
+    function (session, results) {
+
+     session.send('You said ' + session.message.text);
+        session.send('Welcome to KiwiSaver.')
+        session.send('Prompt example:')
+        builder.Prompts.choice(session, "Intant Example", ["Intant 1", "Intant 2", "Intant 3", "Intant 4", "Intant 5", "Intant 6"]);
+    },
+    function (session, results) {
+        session.userData.language = results.response.entity;
+        session.send("Youselected " + session.userData.language + " is awesome!");
+        
+        // send card
+        session.send('Sending Intant example...');
+        var msg = new builder.Message(session);
+        msg.attachments([
+            new builder.HeroCard(session)
+                .title('Intant 1')
+                .subtitle('Intant')
+                .text('')
+                .images([
+                    builder.CardImage.create(session, '')
+                ])
+                .buttons([
+                    builder.CardAction.openUrl(session, ''),
+                    builder.CardAction.openUrl(session, '')
+                ])
+        ]);
+    session.send(msg).endDialog();
+    }
+]);
 if (useEmulator) {
     var restify = require('restify');
     var server = restify.createServer();
