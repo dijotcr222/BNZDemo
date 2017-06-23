@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/dijotcr222/BNZDemo#readme",
   "dependencies": {
-    "mssql": "^4.0.4"
+    "mssql": "^4.0.4",
+    "tedious": "^2.0.0"
   }
 }

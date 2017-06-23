@@ -4,8 +4,11 @@ var botbuilder_azure = require("botbuilder-azure");
 var path = require('path');
 var http = require('http');
 var sql = require('mssql');
-
+var Connection = require('tedious').Connection;
+var Request = require('tedious').Request;
 var useEmulator = (process.env.NODE_ENV == 'development');
+const express = require('express')
+const app = express()
 
 var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure.BotServiceConnector({
     appId: process.env['MicrosoftAppId'],
@@ -15,10 +18,10 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
 });
 
 var connection = {
-    server: 'demodijo.database.windows.net',
+    server: 'chattable.database.windows.net',
     user: 'dijotcr222',
     password: 'D1j0=0kRia123',
-    database: 'WorkshopDemo',
+    database: 'ChatTable',
     options: {
            encrypt: true
       }
@@ -31,6 +34,8 @@ sql.connect(connection, function (err) {
      console.log("DB Connected");
   }
 })
+var connection = new Connection(config);
+
 
 var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
@@ -40,15 +45,18 @@ bot.localePath(path.join(__dirname, './locale'));
 bot.dialog('/', function (session) {
     session.send('You said ' + session.message.text);
     session.send('Welcome to KiwiSaver.');
-  //  var conn = new sql.Connection(connection);
-    //var reqs = new sql.Request(conn);
+  var conn = new sql.Connection(connection);
+   var reqs = new sql.Request(conn);
    
-    /*conn.connect(function(err){
+    conn.connect(function(err){
       if(err){
         console.log(err)
       }else{
-        /*var SqlSt = "INSERT into Chat (chat_Interaction, created_date) VALUES";
-        SqlSt += util.format("(%s,%s)",session.message.text,session.message.textsession.message.text);
+
+    
+);
+        var SqlSt = "INSERT into ChatTable (ChatID, chatMessage,localTime) VALUES";
+        SqlSt += util.format("(%d,%s,%s)","1","1","1");
         reqs.query(SqlSt, function(err, data){
             if(err){
               console.log(err);
@@ -57,7 +65,7 @@ bot.dialog('/', function (session) {
             }
         });
       }
-    });*/
+    });
 
     
 });
@@ -65,10 +73,7 @@ bot.dialog('/', function (session) {
 
 /*bot.dialog('/', [
     function (session, results) {
-
- 
-
-       /*var conn = new sql.Connection(connection);
+  /*var conn = new sql.Connection(connection);
     var reqs = new sql.Request(conn);
     conn.connect(function(err){
       if(err){
