@@ -26,9 +26,9 @@ var connection = {
 sql.connect(connection, function (err) {
   if(err){
     console.log(err);
-    console.log("Error in connection");
+    session.send("Error in connection");
   }else{
-    console.log("DB Connected");
+    session.send("DB Connected");
   }
 })
 
