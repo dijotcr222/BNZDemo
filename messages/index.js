@@ -13,84 +13,33 @@ var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure
     openIdMetadata: process.env['BotOpenIdMetadata']
 });
 
+var connection = {
+    server: 'dchat.database.windows.net',
+    user: 'dijotcr222',
+    password: 'D1j0=0kRia123',
+    database: 'MYChatTest',
+    options: {
+           encrypt: true
+      }
+};
+sql.connect(connection, function (err) {
+  if(err){
+    console.log(err);
+    console.log("Error in connection");
+  }else{
+    console.log("DB Connected");
+  }
+})
+
 var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 
 // This is a dinner reservation bot that uses a waterfall technique to prompt users for input.
- if (!session.userData.greeting) {
 
-        session.send("Hi DIJO.  We think that you’d best suit a KiwiSaver Balanced fund but it’s possible you’d prefer an alternative fund.  What would you like to do?");
-        session.userData.greeting = true;
+bot.dialog('/', function (session) {
+    session.send('You said ' + session.message.text);
+});
 
-    } else if (!session.userData.name) {
-
-        console.log("Begin");
-       
-
-    } else if (!session.userData.email) {
-
-        console.log("Name is: " + session.userData.name);
-       
-
-    } else if (!session.userData.password) {
-
-        console.log("Name is: " + session.userData.name);
-
-
-    }else if (!session.userData.five) {
-
-        console.log("five: " + session.userData.five);
-
-       
-
-    }
-    else if (!session.userData.six) {
-
-        console.log("six: " + session.userData.six);
-
-       
-
-    }
-     else if (!session.userData.seven) {
-
-        console.log("seven: " + session.userData.seven);
-
-
-
-    }
-    else if (!session.userData.eight) {
-
-        console.log("eight: " + session.userData.eight);
-
-       
-
-    }
-     else {
-
-        session.userData = null;
-    }
-
-    session.endDialog();
-} );
-
-function sendData(data, cb) {
-
-        var args = {
-        data: { name: data.name,
-            email: data.email, password : data.password, five: data.five, six: data.six, seven: data.seven, eight: data.eight },
-        headers: { "Content-Type": "application/json" }
-        };
-        
-        client.post("http://localhost:3000/senddata", args, function (data, response) {
-                    // parsed response body as js object
-                    console.log(data);
-                    // raw response
-                    console.log(response);
-                    });    
-
-  
-
-}
 
 if (useEmulator) {
     var restify = require('restify');
