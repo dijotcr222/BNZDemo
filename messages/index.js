@@ -34,7 +34,6 @@ sql.connect(connection, function (err) {
 var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 
-// This is a dinner reservation bot that uses a waterfall technique to prompt users for input.
 
 bot.dialog('/', function (session) {
     session.send('You said ' + session.message.text);
