@@ -42,8 +42,8 @@ bot.dialog('/', [
 
      session.send('You said ' + session.message.text);
         session.send('Welcome to KiwiSaver.')
-        session.send('Prompt example:')
-        builder.Prompts.choice(session, "Intant Example", ["Intant 1", "Intant 2", "Intant 3", "Intant 4", "Intant 5", "Intant 6"]);
+        session.send('Intent example:')
+        builder.Prompts.choice(session, "Intant Example", ["Intent 1", "Intent 2", "Intent 3", "Intent 4", "Intent 5", "Intent 6"]);
     },
     function (session, results) {
         session.userData.language = results.response.entity;
@@ -54,8 +54,8 @@ bot.dialog('/', [
         var msg = new builder.Message(session);
         msg.attachments([
             new builder.HeroCard(session)
-                .title('Intant 1')
-                .subtitle('Intant')
+                .title('Intent 1')
+                .subtitle('Intent')
                 .text('')
                 .images([
                     builder.CardImage.create(session, '')
