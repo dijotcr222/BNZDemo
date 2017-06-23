@@ -38,8 +38,8 @@ bot.localePath(path.join(__dirname, './locale'));
 
 
 bot.dialog('/', function (session) {
-
-session.send('Welcome to KiwiSaver.');
+    session.send('You said ' + session.message.text);
+    session.send('Welcome to KiwiSaver.');
     var conn = new sql.Connection(connection);
     var reqs = new sql.Request(conn);
    
@@ -58,7 +58,7 @@ session.send('Welcome to KiwiSaver.');
         });
       }
     });
-     session.send('You said ' + session.message.text);
+
     
 });
 
