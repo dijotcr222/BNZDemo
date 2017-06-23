@@ -40,10 +40,10 @@ bot.localePath(path.join(__dirname, './locale'));
 bot.dialog('/', function (session) {
     session.send('You said ' + session.message.text);
     session.send('Welcome to KiwiSaver.');
-    var conn = new sql.Connection(connection);
-    var reqs = new sql.Request(conn);
+  //  var conn = new sql.Connection(connection);
+    //var reqs = new sql.Request(conn);
    
-    conn.connect(function(err){
+    /*conn.connect(function(err){
       if(err){
         console.log(err)
       }else{
@@ -55,9 +55,9 @@ bot.dialog('/', function (session) {
             }else{
               console.log("Saved")
             }
-        });*/
+        });
       }
-    });
+    });*/
 
     
 });
