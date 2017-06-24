@@ -59,7 +59,7 @@ var bot = new builder.UniversalBot(connector);
 bot.localePath(path.join(__dirname, './locale'));
 
 bot.dialog('/', function (session) {
-    session.send('You said ' + session.message.text);
+    session.send('DIJO said ' + session.message.text);
 
 });
 
