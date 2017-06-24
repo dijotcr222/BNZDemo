@@ -63,7 +63,7 @@ bot.dialog('/', function (session) {
             }else{
               console.log("Saved")
             }
-        });*/
+        });
       }
     });
 
