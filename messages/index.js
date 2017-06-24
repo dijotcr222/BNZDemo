@@ -38,7 +38,7 @@ function savedata(session){
         else{
           console.log("Inserting a brand new chat into database...");
           request = new Request(
-              "INSERT INTO ChatTable (ChatID,ChatMessage, localTime) VALUES (23,'fggh', 'jhgjh')",
+              "INSERT INTO ChatTable (ChatID,ChatMessage, localTime) VALUES (24,'fggh', 'jhgjh')",
               function(err, rowCount, rows) {
                   console.log(rowCount + ' row(s) inserted');
               }
