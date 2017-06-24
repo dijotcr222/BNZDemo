@@ -45,27 +45,7 @@ bot.localePath(path.join(__dirname, './locale'));
 bot.dialog('/', function (session) {
     session.send('You said ' + session.message.text);
     session.send('Welcome to KiwiSaver.');
-  var conn = new sql.Connection(connection);
-   var reqs = new sql.Request(conn);
-   
-    conn.connect(function(err){
-      if(err){
-        console.log(err)
-      }else{
 
-    
-);
-        var SqlSt = "INSERT into ChatTable (ChatID, chatMessage,localTime) VALUES";
-        SqlSt += util.format(""");
-        reqs.query(SqlSt, function(err, data){
-            if(err){
-              console.log(err);
-            }else{
-              console.log("Saved")
-            }
-        });
-      }
-    });
 
     
 });
