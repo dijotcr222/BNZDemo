@@ -7,8 +7,7 @@ var sql = require('mssql');
 var Connection = require('tedious').Connection;
 var Request = require('tedious').Request;
 var useEmulator = (process.env.NODE_ENV == 'development');
-const express = require('express')
-const app = express()
+
 
 var connector = useEmulator ? new builder.ChatConnector() : new botbuilder_azure.BotServiceConnector({
     appId: process.env['MicrosoftAppId'],
