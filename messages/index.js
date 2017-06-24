@@ -38,7 +38,7 @@ function savedata(session){
         else{
           console.log("Inserting a brand new chat into database...");
           request = new Request(
-              "INSERT INTO ChatTable (ChatID,ChatMessage, localTime) VALUES (24,'fggh', 'jhgjh')",
+              "INSERT INTO ChatTable (ChatID,ChatMessage, localTime) VALUES (24,'fggh', 'jffffhgjh')",
               function(err, rowCount, rows) {
                   console.log(rowCount + ' row(s) inserted');
               }
@@ -60,6 +60,8 @@ bot.localePath(path.join(__dirname, './locale'));
 
 bot.dialog('/', function (session) {
     session.send('DIJO said ' + session.message.text);
+         savedata(session);
+
 
 });
 
