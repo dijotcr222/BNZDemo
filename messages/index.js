@@ -44,7 +44,7 @@ bot.localePath(path.join(__dirname, './locale'));
 bot.dialog('/', function (session) {
     session.send('You said ' + session.message.text);
 
-    var conn = new sql.Connection(connection);
+    var conn = new sql.ConnectionPool(connection);
     var reqs = new sql.Request(conn);
 
     conn.connect(function(err){
